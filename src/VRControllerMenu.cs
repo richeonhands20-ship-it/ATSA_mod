@@ -14,10 +14,10 @@ namespace GorillaTagMod
         private OVRInput.Controller leftController = OVRInput.Controller.LTouch;
         private OVRInput.Controller rightController = OVRInput.Controller.RTouch;
 
-        [SerializeField] private bool isMenuOpen = false;
-        [SerializeField] private Canvas menuCanvas;
-        [SerializeField] private float menuDistance = 1.5f;
-        [SerializeField] private float menuHeight = 1.5f;
+        [SerializeField] public bool isMenuOpen = false;
+        [SerializeField] public Canvas menuCanvas;
+        [SerializeField] public float menuDistance = 1.5f;
+        [SerializeField] public float menuHeight = 1.5f;
 
         private Transform playerHead;
         private Transform leftControllerTransform;
@@ -110,7 +110,7 @@ namespace GorillaTagMod
                 canvas.renderMode = RenderMode.WorldSpace;
 
                 RectTransform rectTransform = canvasObject.GetComponent<RectTransform>();
-                rectTransform.sizeDelta = new Vector2(400, 600);
+                rectTransform.sizeDelta = new Vector2(400, 700);
 
                 menuCanvas = canvas;
             }
@@ -150,7 +150,7 @@ namespace GorillaTagMod
             titleObject.transform.SetParent(menuPanel.transform);
 
             RectTransform titleRect = titleObject.AddComponent<RectTransform>();
-            titleRect.anchoredPosition = new Vector2(0, 250);
+            titleRect.anchoredPosition = new Vector2(0, 300);
             titleRect.sizeDelta = new Vector2(400, 60);
 
             Text titleText = titleObject.AddComponent<Text>();
@@ -173,6 +173,7 @@ namespace GorillaTagMod
                 "🛟 Platforms (M)",
                 "⚡ Speed Boost (S)",
                 "✨ Tag Aura (T)",
+                "💪 Long Arms (A)",
                 "⚠️ Auto-Leave (L)",
                 "❌ CLOSE MENU"
             };
@@ -192,7 +193,7 @@ namespace GorillaTagMod
             buttonObject.transform.SetParent(menuPanel.transform);
 
             RectTransform buttonRect = buttonObject.AddComponent<RectTransform>();
-            buttonRect.anchoredPosition = new Vector2(0, 200 - (index * 70));
+            buttonRect.anchoredPosition = new Vector2(0, 250 - (index * 70));
             buttonRect.sizeDelta = new Vector2(350, 60);
 
             Image buttonImage = buttonObject.AddComponent<Image>();
@@ -270,7 +271,15 @@ namespace GorillaTagMod
                     }
                     break;
 
-                case 4: // Auto-Leave
+                case 4: // Long Arms
+                    if (LongArms.Instance != null)
+                    {
+                        LongArms.Instance.ToggleLongArms();
+                        Debug.Log("Long arms toggled!");
+                    }
+                    break;
+
+                case 5: // Auto-Leave
                     if (AutoLobbyLeave.Instance != null)
                     {
                         AutoLobbyLeave.Instance.ToggleAutoLeave();
@@ -278,7 +287,7 @@ namespace GorillaTagMod
                     }
                     break;
 
-                case 5: // Close Menu
+                case 6: // Close Menu
                     CloseMenu();
                     break;
             }
